@@ -122,3 +122,21 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# Own stuff
+.idea/
+*.pickled
+*.xyz
+*.hea
+*.dat
+*.qrs
+*.png
+*.pdf
+*.tar
+*.bz2
+/data/datasets/
+/tensorboard/
+/logs/
+/data/shareedb/
+/data/ptbxl/
