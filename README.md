@@ -51,7 +51,7 @@ a requirements.txt file is provided (TODO: NOTE: ACTUALLY PROVIDE THAT FILE) con
 
 These modules can be installed by typing: 
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 The environment is now ready to be used. 
 
