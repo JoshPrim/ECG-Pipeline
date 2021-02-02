@@ -86,7 +86,7 @@ If ECG data in XML format are to be used, they must be stored in the 'xml_data' 
 
 If PDF data are to be used, they must be stored in the 'pdf_data' folder. For PDF data the two providers Cardiosoft and Schiller are currently supported. The untreated PDF data must be placed in the 'original_ecgs' folder.
 
-As this extraction Pipeline presents an end to end solution, The corresponding clinical parameters can be inserted into the 'clinicalparameters' folder. This allows classifiers which use the pipeline to have additional information about the Patients.
+As this extraction pipeline presents an end to end solution, The corresponding clinical parameters can be inserted into the 'clinicalparameters' folder. This allows classifiers which use the pipeline to have additional information about the patients.
 The codes for the clinical parameters and corresponding metadata can be modified in the file in the 'metadata' folder.
 
 #### Configuration
