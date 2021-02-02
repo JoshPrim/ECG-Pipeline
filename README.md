@@ -7,7 +7,7 @@ Medical data such as electrocardiogram recordings have successfully been used as
 
 ### Requirements
 
-Python 3.5+ (3.8 Reccomended)
+Python 3.8
 
 ### Support
 
