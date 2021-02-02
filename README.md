@@ -47,7 +47,7 @@ conda activate your_env_name
 ```
 
 The next step is navigating to this directory via the command prompt (.../ECG-Pipeline) 
-a requirements.txt file is provided (NOTE: ACTUALLY PROVIDE THAT FILE) containing all the required modules.
+a requirements.txt file is provided (TODO: NOTE: ACTUALLY PROVIDE THAT FILE) containing all the required modules.
 
 These modules can be installed by typing: 
 ```
@@ -98,7 +98,7 @@ This Project also supplies a "Demo" file. To simply run the "Demo" no changes ne
 
 Settings:
 * is_pdf = Switch between PDF (True) and XML files (False)
-* vis_while_extraction = Switch on/off the visualization during extraction.
+* vis_while_extraction = Switch on(True)/off(False) the visualization during extraction.
 * manufacturer = Manufacturer (Possible values: 'Cardiosoft', 'Schiller')
 
 
