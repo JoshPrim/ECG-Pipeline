@@ -47,7 +47,7 @@ conda activate your_env_name
 ```
 
 The next step is navigating to this directory via the command prompt (.../ECG-Pipeline) 
-a requirements.txt file is provided (TODO: NOTE: ACTUALLY PROVIDE THAT FILE) containing all the required modules.
+a requirements.txt file is provided containing all the required modules.
 
 These modules can be installed by typing: 
 ```
