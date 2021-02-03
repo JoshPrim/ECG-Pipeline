@@ -105,7 +105,24 @@ Settings:
 
 ### Execution
 
-Todo: using the extraction pipeline / accessing the "Demo" ...
+For execution of the provided "Demo" a runner is provided. 
+
+There are multiple ways of executing this pipeline, for example, with an IDE or through the command prompt.
+An explanation is provided on how to run this pipeline through the command prompt.
+
+To start the runner, the previously created conda environment needs to be active. 
+If the environment is still active from the installation, this can be seen in the comand prompt, as it shows the environment name in brackets in front the current directory.
+Should the environment not be active, it can be activated again by typing:
+```
+conda activate your_env_name
+```
+
+using the command prompt, navigate to this directory
+
+The demo can be started by typing:
+```
+python runme.py
+```
 
 
 
