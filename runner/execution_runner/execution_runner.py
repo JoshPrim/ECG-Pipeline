@@ -5,24 +5,24 @@ import datetime
 import time
 import pandas as pd
 import configparser
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from tensorflow.keras.models import model_from_json
-
 from utils.data.data import load_ecgs_from_redcap_snapshot, scale_ecgs, derive_ecg_variants_multi, crop_ecgs, \
     load_clinical_parameters_from_redcap_snapshot, validate_and_clean_clinical_parameters_for_records, \
     categorize_clinical_parameters_for_records, \
     one_hot_encode_clinical_parameters_for_records, \
-    combine_ecgs_and_clinical_parameters,  load_metadata, subsample_ecgs
+    combine_ecgs_and_clinical_parameters, load_metadata, subsample_ecgs
 import numpy as np
 from extractors.extractor_schiller import SchillerExtractor
 from extractors.extractor_cardiosoft import CardiosoftExtractor
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
 class ExecutionRunner:
     def __init__(self):
 
         config = configparser.ConfigParser()
-        read_ok = config.read('config.ini')
+        read_ok = config.read('../../config.ini')
 
         if len(read_ok) == 0:
             raise Exception('Could not read config file.')
@@ -99,18 +99,17 @@ class ExecutionRunner:
 
             predictions_avg = np.array(predictions_avg_list).mean(axis=0)
 
-            positive = ("%.5f" % round((predictions_avg[index_of_positiv]*100), 5))
+            positive = ("%.5f" % round((predictions_avg[index_of_positiv] * 100), 5))
 
             print('The positive-Value for ', record, ' is:  ', positive, '%')
             result_df = result_df.append({'record_id': record, 'positive_value': positive}, ignore_index=True)
 
         date_n_time = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H-%M-%S')
-        result_df.to_csv((date_n_time+'_result.csv'), index=False)
+        result_df.to_csv((date_n_time + '_result.csv'), index=False)
 
     def predict(self, model_list, subsample_list):
         results = {}
         for model in model_list:
-
             tmp = model.predict_on_batch(subsample_list)
             results[model] = tmp
 
@@ -273,6 +272,15 @@ class ExecutionRunner:
         logging.info("Loaded model from disk")
 
         return loaded_model
+
+    @staticmethod
+    def bootstrap():
+        exr = ExecutionRunner()
+        try:
+            exr.run()
+        except Exception as e:
+            logging.error(str(e))
+            raise Exception(e.args)
 
 
 if __name__ == '__main__':

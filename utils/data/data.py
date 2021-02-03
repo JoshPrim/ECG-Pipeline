@@ -10,11 +10,13 @@ from os import path
 from sklearn.utils import shuffle, resample
 from xml.dom import minidom
 
-from utils.api.wfdb_api import load_norm_and_mi_ecgs, load_patientrecords_mi_norm
+#TODO: herausfinden welche methoden wirklich gebraucht werden und welche fpür die Demo nicht nötig sind
+
+# from utils.api.wfdb_api import load_norm_and_mi_ecgs, load_patientrecords_mi_norm
 from utils.data.validation import validate_and_clean_float, validate_and_clean_char
 from utils.file.file import save_dict_as_json, save_string_to_file, load_string_from_file, load_dict_from_json, \
     pickle_data, unpickle_data, make_dirs_if_not_present
-from utils.api.redcap_api import load_report, load_file
+# from utils.api.redcap_api import load_report, load_file
 from utils.misc.datastructure import perform_shape_switch
 
 
