@@ -14,6 +14,7 @@ from utils.data.data import load_ecgs_from_redcap_snapshot, scale_ecgs, derive_e
 import numpy as np
 from extractors.extractor_schiller import SchillerExtractor
 from extractors.extractor_cardiosoft import CardiosoftExtractor
+from utils.data.visualisation import visualiseMulti
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 

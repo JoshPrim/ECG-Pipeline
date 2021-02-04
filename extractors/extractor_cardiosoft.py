@@ -35,8 +35,9 @@ class CardiosoftExtractor(AbstractExractor):
             raise ValueError('ecg_path_sink is not set in params')
         else:
             self.path_sink = params['ecg_path_sink']
-
+        # reference value for the calibration jag
         self.eich_ref = 1000
+        # extracted height for the calibration jag in PDF
         self.eichzacke = 236.99999999999997
 
         if 'number_of_points' not in params:
