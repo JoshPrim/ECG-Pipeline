@@ -25,10 +25,10 @@ git clone https://github.com/JoshPrim/ECG-Pipeline
 cd ECG-Pipeline
 ```
 
-It is highly reccomended to use a virtual environment for this project, as it requires a specific set of libraries and extensions.
-There are multiple ways to set up a virtual environments. The following instructions provide a brief explanation how to set up a virtual environment using Conda. 
+It is highly recommended to use a virtual environment for this project, as it requires a specific set of libraries and extensions.
+There are multiple ways to set up a virtual environment. The following instructions provide a brief explanation on how to set up a virtual environment using Conda. 
 
-Firstly an up-to-date installation of the Anaconda project is needed. A download link can be found here: 
+Firstly, an up-to-date installation of the Anaconda project is needed. A download link can be found here: 
 https://docs.anaconda.com/anaconda/install/
 
 After the installation, a virtual environment can be created using the command prompt. 
@@ -55,11 +55,11 @@ pip install -r requirements.txt
 ```
 The environment is now ready to be used. 
 
-### Project structure and configration
+### Project structure and configuration
 
 #### Structure
 
-This pipeline is able to process ECG files from two diffrent ECG manufacturers(Schiller and Cardiosoft) 
+This pipeline is able to process ECG files from two different ECG manufacturers(Schiller and Cardiosoft) 
 In order for the extractors to work properly, the ECG files need to be in their corresponding paths.
 A short explanation of the structure of the project follows.
 
@@ -86,7 +86,7 @@ If ECG data in XML format are to be used, they must be stored in the 'xml_data' 
 
 If PDF data are to be used, they must be stored in the 'pdf_data' folder. For PDF data the two providers Cardiosoft and Schiller are currently supported. The untreated PDF data must be placed in the 'original_ecgs' folder.
 
-As this extraction pipeline presents an end to end solution, The corresponding clinical parameters can be inserted into the 'clinicalparameters' folder. This allows classifiers which use the pipeline to have additional information about the patients.
+The corresponding clinical parameters can be inserted into the 'clinicalparameters' folder.
 The codes for the clinical parameters and corresponding metadata can be modified in the file in the 'metadata' folder.
 
 #### Configuration
@@ -98,7 +98,8 @@ This Project also supplies a "Demo" file. To simply run the "Demo" no changes ne
 
 Settings:
 * is_pdf = Switch between PDF (True) and XML files (False)
-* vis_while_extraction = Switch on(True)/off(False) the visualization during extraction.
+* vis_while_extraction = Switch on(True)/off(False) the visualization of single ECG leads during extraction.
+* vis_after_extraction = Switch on(True)/off(False) visualisation of all ECG leads after the instruction
 * manufacturer = Manufacturer (Possible values: 'Cardiosoft', 'Schiller')
 
 
@@ -110,14 +111,14 @@ For execution of the provided "Demo" a runner is provided.
 There are multiple ways of executing this pipeline, for example, with an IDE or through the command prompt.
 An explanation is provided on how to run this pipeline through the command prompt.
 
-To start the runner, the previously created conda environment needs to be active. 
-If the environment is still active from the installation, this can be seen in the comand prompt, as it shows the environment name in brackets in front the current directory.
+To start the runner, the previously created Conda environment needs to be active. 
+If the environment is still active from the installation, this can be seen in the command prompt, as it shows the environment name in brackets in front the current directory.
 Should the environment not be active, it can be activated again by typing:
 ```
 conda activate your_env_name
 ```
 
-using the command prompt, navigate to this directory
+using the command prompt, navigate to this directory(.../ECG-Pipeline).
 
 The demo can be started by typing:
 ```
