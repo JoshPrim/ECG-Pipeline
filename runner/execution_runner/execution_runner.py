@@ -34,6 +34,7 @@ class ExecutionRunner:
         self.new_extraction = config['pdf'].getboolean('override')
 
         self.vis_while_extraction = config['pdf'].getboolean('vis_while_extraction')
+        self.vis_after_extraction = config['pdf'].getboolean('vis_after_extraction')
         self.combined_model = config['pdf'].getboolean('combined_model')
 
         self.manufacturer = config['pdf'].get('manufacturer')
@@ -198,6 +199,9 @@ class ExecutionRunner:
         else:
             original_ecgs = load_ecgs_from_redcap_snapshot(self.leads_to_use, self.record_ids_excluded)
             clinical_parameters_directory = '../../data/kerckhoff/xml_data/clinicalparameters/'
+        # Visualise Extracted ECGs
+        if self.vis_after_extraction:
+            visualiseMulti(original_ecgs, 0.33)
 
         # 2. Scale ECGs
         logging.info('Scaled ECGs')

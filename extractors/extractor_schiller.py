@@ -14,7 +14,7 @@ import math
 from os import walk
 from extractors.abstract_extractor import AbstractExractor
 from utils.extract_utils.extract_utils import rotate_origin_only, move_along_the_axis, scale_values_based_on_eich_peak, \
-    create_measurement_points, adjust_leads_baseline, plot_leads
+    create_measurement_points, adjust_leads_baseline, plot_leads, preprocess_page_content, extract_graphics_string
 from utils.misc.datastructure import perform_shape_switch
 import logging
 from tqdm import tqdm
@@ -98,6 +98,8 @@ class SchillerExtractor(AbstractExractor):
                     # Adjust baseline position of each lead
                     df_leads = adjust_leads_baseline(df_leads)
 
+                    # TODO: Insert new visualisation here
+
                     df_leads.to_csv(('{}{}.csv'.format(self.path_sink, file_name.replace(".pdf", ""))),
                                     index=False)
                 else:
@@ -108,7 +110,7 @@ class SchillerExtractor(AbstractExractor):
         return True
 
     def extract_leads_from_pdf(self, filename):
-        reader = PyPDF2.PdfFileReader(open(self.path_source+filename, 'rb'))
+        reader = PyPDF2.PdfFileReader(open(self.path_source + filename, 'rb'))
 
         num_pages = reader.getNumPages()
         if num_pages == 3:
@@ -117,8 +119,10 @@ class SchillerExtractor(AbstractExractor):
         else:
             pg1 = reader.getPage(0).getContents()._data
             pg2 = reader.getPage(1).getContents()._data
-        pg1 = self.string_preparation(pg1)
-        pg2 = self.string_preparation(pg2)
+        pg1 = preprocess_page_content(pg1)
+        pg1 = extract_graphics_string(pg1)
+        pg2 = preprocess_page_content(pg2)
+        pg2 = extract_graphics_string(pg2)
 
         leads1 = self.collectLeads(pg1, 7, 18)
         leads2 = self.collectLeads(pg2, 7, 18)
@@ -141,13 +145,6 @@ class SchillerExtractor(AbstractExractor):
             raise Exception('Special case: External limits for the extraction may not be correct!')
 
         return leads
-
-    def string_preparation(self, pageString):
-        pageString = filters.FlateDecode.decode(pageString, "/FlateDecode").decode('latin-1')
-        pageString = pageString.replace(' l', '').replace(' m', '').replace(' w', '').replace(' j', '').replace(' J', '')
-        pageString = pageString.split('Q')
-
-        return pageString
 
     def collectLeads(self, graphicsString, lower=7, upper=18):
         leads = []

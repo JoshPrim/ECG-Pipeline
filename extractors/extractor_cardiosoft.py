@@ -15,7 +15,7 @@ import os
 
 from extractors.abstract_extractor import AbstractExractor
 from utils.extract_utils.extract_utils import rotate_origin_only, move_along_the_axis, scale_values_based_on_eich_peak, \
-    create_measurement_points, adjust_leads_baseline, plot_leads
+    create_measurement_points, adjust_leads_baseline, plot_leads, preprocess_page_content, extract_graphics_string
 from utils.misc.datastructure import perform_shape_switch
 from tqdm import tqdm
 import logging
@@ -63,6 +63,7 @@ class CardiosoftExtractor(AbstractExractor):
             logging.info('Converting "{}"'.format(file_name))
             try:
                 # Extract leads from PDF
+                # TODO: Figure out why record_id has no usage
                 lead_list, lead_ids, record_id = self.extract_leads_from_pdf(file_name)
 
                 if lead_list is not None:
@@ -81,6 +82,7 @@ class CardiosoftExtractor(AbstractExractor):
                         # Scale values based on eich peak
                         new_lead = scale_values_based_on_eich_peak(new_lead, self.gamma)
 
+                        # Plot
                         if self.show_visualisation:
                             plot_leads(new_lead)
 
@@ -95,6 +97,8 @@ class CardiosoftExtractor(AbstractExractor):
 
                     # Adjust baseline position of each lead
                     df_leads = adjust_leads_baseline(df_leads)
+
+                    #TODO: Insert new visualisation here
 
                     df_leads.to_csv(('{}{}.csv'.format(self.path_sink, file_name.replace(".pdf", ""))),
                                     index=False)
@@ -126,8 +130,8 @@ class CardiosoftExtractor(AbstractExractor):
 
                     page_content_raw = reader.getPage(p).getContents()._data
 
-                    page_content = self.preprocess_page_content(page_content_raw)
-                    graphics_string = self.extract_graphics_string(page_content)
+                    page_content = preprocess_page_content(page_content_raw)
+                    graphics_string = extract_graphics_string(page_content)
 
                     leads += self.extract_leads_from_page_content(graphics_string)
                     lead_ids += self.extract_lead_ids(text)
@@ -193,19 +197,6 @@ class CardiosoftExtractor(AbstractExractor):
                 break
 
         return record_id
-
-    def preprocess_page_content(self, page_content_raw):
-        page_content = filters.FlateDecode.decode(page_content_raw, "/FlateDecode").decode('latin-1')
-
-        return page_content
-
-    def extract_graphics_string(self, page_content):
-        graphics_string = page_content.replace(' l', '').replace(' m', '').replace(' w', '').replace(' j',
-                                                                                                     '').replace(
-            ' J', '')
-        graphics_string = graphics_string.split('Q')
-
-        return graphics_string
 
     def extract_leads_from_page_content(self, graphics_string):
         leads = []

@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+from PyPDF2 import filters
 
 
 def rotate_origin_only(x, y, radians):
@@ -112,7 +113,7 @@ def plot_leads(lead, plot_path=None, plot_name='plot'):
     # df.plot(kind='line', x='Y', y=['extracted time series'], figsize=(28, 2), legend=False)
 
     if plot_path is not None:
-        plt.savefig(plot_path+str(plot_name)+'.png')
+        plt.savefig(plot_path + str(plot_name) + '.png')
 
     plt.show()
 
@@ -148,13 +149,37 @@ def calc_stddev(df, window_size=124):
     """
     min_dev_sum = np.Inf
     avg = []
-    for i in range(0, len(df)-window_size):
-        df_tmp = df.loc[i:i+window_size]
+    for i in range(0, len(df) - window_size):
+        df_tmp = df.loc[i:i + window_size]
 
         if sum(df_tmp.std()) < min_dev_sum:
             min_dev_sum = sum(df_tmp.std())
             avg = df_tmp.mean()
     return avg
+
+
+def preprocess_page_content(page_content_raw):
+    """
+        Preprocesses the content String from the PDFs
+    :param page_content_raw: unfiltered content String
+    :return: filtered and decoded content string
+    """
+    page_content = filters.FlateDecode.decode(page_content_raw, "/FlateDecode").decode('latin-1')
+
+    return page_content
+
+
+def extract_graphics_string(page_content):
+    """
+        Process the content string until it only holds only necessary graphical information for content extraction
+    :param page_content: The content of the page
+    :return: Graphical string
+    """
+    graphics_string = page_content.replace(' l', '').replace(' m', '').replace(' w', '').replace(' j', '').replace(' J',
+                                                                                                                   '')
+    graphics_string = graphics_string.split('Q')
+
+    return graphics_string
 
 
 def adjust_leads_baseline(df_leads):

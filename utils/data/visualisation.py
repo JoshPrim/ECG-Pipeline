@@ -1,6 +1,10 @@
 from PIL import Image, ImageDraw
 
 
+# TODO: Add PIL to requirements.txt
+# TODO: Check Data frame accessing is done correctly
+
+
 def visualiseMulti(ecgs, scaling=1):
     """
             Visualises the extracted ECGs in one image per ECG
@@ -30,6 +34,7 @@ def visualiseIndividual(ecgs):
     :param ecgs: list of ECGs
 
     """
+
     for ecg in ecgs:
         for lead in ecg:
             # iterating through all leads to generate a single image per ECG
@@ -40,3 +45,20 @@ def visualiseIndividual(ecgs):
                 # Drawing lines between every measuring point
                 draw.line((i, lead[i], i + 1, lead[i + 1]), fill=0, width=2)
             ims.show()
+
+def visualiseSingleIndividual(ecg):
+
+    """
+        Visualises the extracted ECG in one image per ECG-lead
+    :param ecg: ECG
+    """
+    for lead in ecg.columns:
+        # iterating through all leads to generate a single image per ECG
+        # Generating an image for every lead
+        ims = Image.new('L', (5000, 2500), 255)
+        draw = ImageDraw.Draw(ims)
+        df_vals= ecg[lead]
+        for i in range(len(df_vals) - 1):
+            # Drawing lines between every measuring point
+            draw.line((i, df_vals.loc(i), i + 1, df_vals.loc(i)), fill=0, width=2)
+        ims.show()
