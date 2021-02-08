@@ -129,7 +129,6 @@ dmypy.json
 *.pickled
 *.xyz
 *.hea
-*.dat
 *.qrs
 *.png
 *.pdf
