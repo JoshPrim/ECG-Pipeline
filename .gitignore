@@ -131,7 +131,7 @@ dmypy.json
 *.hea
 *.qrs
 *.png
-*.pdf
+#*.pdf
 *.tar
 *.bz2
 
