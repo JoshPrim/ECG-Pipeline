@@ -1,21 +1,15 @@
+import json
 import logging
-from datetime import datetime
 import os
 
-import json
+import numpy as np
 # Known Bug in PyCharm -> Minidom will not import correctly
 # Pipeline should work as this is only part of the XML extraction
 # noinspection PyUnresolvedReferences
 from xml.dom import minidom
 
-import numpy as np
-import pandas as pd
-from os import path
-
-from sklearn.utils import shuffle, resample
 from utils.data.validation import validate_and_clean_float, validate_and_clean_char
-from utils.file.file import save_dict_as_json, save_string_to_file, load_string_from_file, load_dict_from_json, \
-    pickle_data, unpickle_data, make_dirs_if_not_present
+from utils.file.file import load_string_from_file, load_dict_from_json
 from utils.misc.datastructure import perform_shape_switch
 
 
