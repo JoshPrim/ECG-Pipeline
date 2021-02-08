@@ -49,8 +49,14 @@ class ExecutionRunner:
                                            'varid_561']
         self.metadata_id = config['general'].get('metadata_id')
 
+        self.seconds = config['pdf'].get('seconds')
+        self.hz = 500
+
         self.subsampling_factor = config['general'].getint('subsampling_factor')
         self.subsampling_window_size = config['general'].getint('subsampling_window_size')
+
+
+
 
     def initialize_logger(self, loglevel='INFO'):
 
@@ -162,7 +168,7 @@ class ExecutionRunner:
                 params = {
                     'ecg_path_sink': path_sink,
                     'ecg_path_source': path_source,
-                    'number_of_points': 5000,
+                    'number_of_points': self.seconds*self.hz,
                     'show_visualisation': self.vis_while_extraction,
                 }
 
