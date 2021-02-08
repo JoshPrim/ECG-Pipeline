@@ -46,19 +46,19 @@ def visualiseIndividual(ecgs):
                 draw.line((i, lead[i], i + 1, lead[i + 1]), fill=0, width=2)
             ims.show()
 
-def visualiseSingleIndividual(ecg):
+def visualiseIndividualfromDF(ecg):
 
     """
         Visualises the extracted ECG in one image per ECG-lead
-    :param ecg: ECG
+    :param ecg: ECG in the Format of a pandas Dataframe
     """
-    for lead in ecg.columns:
+    for leadname in ecg.columns:
         # iterating through all leads to generate a single image per ECG
         # Generating an image for every lead
         ims = Image.new('L', (5000, 2500), 255)
         draw = ImageDraw.Draw(ims)
-        df_vals= ecg[lead]
-        for i in range(len(df_vals) - 1):
+        singlelead = ecg[leadname].tolist()
+        for i in range(len(singlelead) - 1):
             # Drawing lines between every measuring point
-            draw.line((i, df_vals.loc(i), i + 1, df_vals.loc(i)), fill=0, width=2)
+            draw.line((i, singlelead[i], i + 1, singlelead[i + 1]), fill=0, width=2)
         ims.show()

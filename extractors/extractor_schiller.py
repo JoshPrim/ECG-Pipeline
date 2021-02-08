@@ -13,6 +13,7 @@ import numpy as np
 import math
 from os import walk
 from extractors.abstract_extractor import AbstractExractor
+from utils.data.visualisation import visualiseIndividualfromDF
 from utils.extract_utils.extract_utils import rotate_origin_only, move_along_the_axis, scale_values_based_on_eich_peak, \
     create_measurement_points, adjust_leads_baseline, plot_leads, preprocess_page_content, extract_graphics_string
 from utils.misc.datastructure import perform_shape_switch
@@ -63,7 +64,6 @@ class SchillerExtractor(AbstractExractor):
         for file_name in tqdm(os.listdir(self.path_source)):
             logging.info('Converting "{}"'.format(file_name))
             try:
-                # TODO: Refactor
                 lead_list = self.extract_leads_from_pdf(file_name)
 
                 if lead_list is not None:
@@ -98,7 +98,9 @@ class SchillerExtractor(AbstractExractor):
                     # Adjust baseline position of each lead
                     df_leads = adjust_leads_baseline(df_leads)
 
-                    # TODO: Insert new visualisation here
+                    # Plot leads of ECG if config is set to do so
+                    if self.show_visualisation:
+                        visualiseIndividualfromDF(df_leads)
 
                     df_leads.to_csv(('{}{}.csv'.format(self.path_sink, file_name.replace(".pdf", ""))),
                                     index=False)
@@ -146,9 +148,9 @@ class SchillerExtractor(AbstractExractor):
 
         return leads
 
-    def collectLeads(self, graphicsString, lower=7, upper=18):
+    def collectLeads(self, graphicsstring, lower=7, upper=18):
         leads = []
-        leads_raw = graphicsString[1].split('C')
+        leads_raw = graphicsstring[1].split('C')
 
         for z in leads_raw[lower:upper: 2]:
             tmp = str(z).split('\n')

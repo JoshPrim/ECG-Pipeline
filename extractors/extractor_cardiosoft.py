@@ -17,6 +17,7 @@ from extractors.abstract_extractor import AbstractExractor
 from utils.extract_utils.extract_utils import rotate_origin_only, move_along_the_axis, scale_values_based_on_eich_peak, \
     create_measurement_points, adjust_leads_baseline, plot_leads, preprocess_page_content, extract_graphics_string
 from utils.misc.datastructure import perform_shape_switch
+from utils.data.visualisation import visualiseIndividualfromDF
 from tqdm import tqdm
 import logging
 
@@ -63,7 +64,6 @@ class CardiosoftExtractor(AbstractExractor):
             logging.info('Converting "{}"'.format(file_name))
             try:
                 # Extract leads from PDF
-                # TODO: Figure out why record_id has no usage
                 lead_list, lead_ids, record_id = self.extract_leads_from_pdf(file_name)
 
                 if lead_list is not None:
@@ -82,10 +82,6 @@ class CardiosoftExtractor(AbstractExractor):
                         # Scale values based on eich peak
                         new_lead = scale_values_based_on_eich_peak(new_lead, self.gamma)
 
-                        # Plot
-                        if self.show_visualisation:
-                            plot_leads(new_lead)
-
                         # Create (e.g. 5000) measurement points based on the unevenly distributed points
                         measurement_points = create_measurement_points(new_lead, self.number_of_points)
 
@@ -98,7 +94,9 @@ class CardiosoftExtractor(AbstractExractor):
                     # Adjust baseline position of each lead
                     df_leads = adjust_leads_baseline(df_leads)
 
-                    #TODO: Insert new visualisation here
+                    # Plot leads of ECG if config is set to do so
+                    if self.show_visualisation:
+                        visualiseIndividualfromDF(df_leads)
 
                     df_leads.to_csv(('{}{}.csv'.format(self.path_sink, file_name.replace(".pdf", ""))),
                                     index=False)
