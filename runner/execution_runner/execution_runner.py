@@ -35,6 +35,7 @@ class ExecutionRunner:
 
         self.vis_while_extraction = config['pdf'].getboolean('vis_while_extraction')
         self.vis_after_extraction = config['pdf'].getboolean('vis_after_extraction')
+        self.vis_scale = config['pdf'].getfloat('vis_scale')
         self.combined_model = config['pdf'].getboolean('combined_model')
 
         self.manufacturer = config['pdf'].get('manufacturer')
@@ -201,7 +202,7 @@ class ExecutionRunner:
             clinical_parameters_directory = '../../data/kerckhoff/xml_data/clinicalparameters/'
         # Visualise Extracted ECGs
         if self.vis_after_extraction:
-            visualiseMulti(original_ecgs, 0.33)
+            visualiseMulti(original_ecgs, self.vis_scale)
 
         # 2. Scale ECGs
         logging.info('Scaled ECGs')
