@@ -100,6 +100,7 @@ Settings:
 * is_pdf = Switch between PDF (True) and XML files (False)
 * vis_while_extraction = Switch on(True)/off(False) the visualization of single ECG leads during extraction.
 * vis_after_extraction = Switch on(True)/off(False) visualisation of all ECG leads after the instruction
+* vis_scale = Set the scale of the after-extraction Visualisation. (Accepted Values: 0 < Value < 1)
 * manufacturer = Manufacturer (Possible values: 'Cardiosoft', 'Schiller')
 
 
