@@ -161,9 +161,9 @@ class ExecutionRunner:
         if self.IS_PDf:
 
             if self.manufacturer == 'Schiller':
-                path_source = '../../data/kerckhoff/pdf_data/pdf_schiller/original_ecgs/'
-                path_sink = '../../data/kerckhoff/pdf_data/pdf_schiller/extracted_ecgs/'
-                clinical_parameters_directory = '../../data/kerckhoff/pdf_data/pdf_schiller/clinicalparameters/'
+                path_source = '../../data/pdf_data/pdf_schiller/original_ecgs/'
+                path_sink = '../../data/pdf_data/pdf_schiller/extracted_ecgs/'
+                clinical_parameters_directory = '../../data/pdf_data/pdf_schiller/clinicalparameters/'
 
                 params = {
                     'ecg_path_sink': path_sink,
@@ -183,9 +183,9 @@ class ExecutionRunner:
                 original_ecgs = self.load_csv(path_csv=path_sink)
 
             if self.manufacturer == 'Cardiosoft':
-                path_source = './../../data/kerckhoff/pdf_data/pdf_cardiosoft/original_ecgs/'
-                path_sink = './../../data/kerckhoff/pdf_data/pdf_cardiosoft/extracted_ecgs/'
-                clinical_parameters_directory = '../../data/kerckhoff/pdf_data/pdf_cardiosoft/clinicalparameters/'
+                path_source = './../../data/pdf_data/pdf_cardiosoft/original_ecgs/'
+                path_sink = './../../data/pdf_data/pdf_cardiosoft/extracted_ecgs/'
+                clinical_parameters_directory = '../../data/pdf_data/pdf_cardiosoft/clinicalparameters/'
 
                 params = {
                     'ecg_path_source': path_source,
@@ -205,7 +205,7 @@ class ExecutionRunner:
                 original_ecgs = self.load_csv(path_csv=path_sink)
         else:
             original_ecgs = load_ecgs_from_redcap_snapshot(self.leads_to_use, self.record_ids_excluded)
-            clinical_parameters_directory = '../../data/kerckhoff/xml_data/clinicalparameters/'
+            clinical_parameters_directory = '../../data/xml_data/clinicalparameters/'
         # Visualise Extracted ECGs
         if self.vis_after_extraction:
             visualiseMulti(original_ecgs, self.vis_scale)

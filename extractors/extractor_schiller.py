@@ -164,8 +164,8 @@ class SchillerExtractor(AbstractExractor):
 
 
 if __name__ == '__main__':
-    path_source = '../data/kerckhoff/pdf_data/pdf_schiller/original_ecgs/'
-    path_sink = '../data/kerckhoff/pdf_data/pdf_schiller/extracted_ecgs/'
+    path_source = '../data/pdf_data/pdf_schiller/original_ecgs/'
+    path_sink = '../data/pdf_data/pdf_schiller/extracted_ecgs/'
 
     params = {
         'ecg_path_sink': path_sink,

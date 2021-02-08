@@ -53,7 +53,7 @@ def load_ecg_xml(path, leads_to_use=None):
 
 
 def load_ecgs_from_redcap_snapshot(leads_to_use, record_ids_excluded,
-                                   ecg_path='../../data/kerckhoff/xml_data/ecg/'):
+                                   ecg_path='../../data/xml_data/ecg/'):
     ecgfiles = os.listdir(ecg_path)
     ecgs = {}
 
