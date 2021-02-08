@@ -28,9 +28,8 @@ def validate_and_clean_float(param, value, valmin=None, valmax=None):
 
     return value_vc
 
-
+#TODO: Candidate for deletion(Training)
 def validate_and_clean_int(param, value, valmin=None, valmax=None):
-    # TODO: Figure out if this is beeing uzsed -> delete
     try:
         value_vc = int(value)
 

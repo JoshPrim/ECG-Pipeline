@@ -3,23 +3,22 @@ from datetime import datetime
 import os
 
 import json
+# Known Bug in PyCharm -> Minidom will not import correctly
+# Pipeline should work as this is only part of the XML extraction
+# noinspection PyUnresolvedReferences
+from xml.dom import minidom
+
 import numpy as np
 import pandas as pd
 from os import path
 
 from sklearn.utils import shuffle, resample
-from xml.dom import minidom
-
-#TODO: herausfinden welche methoden wirklich gebraucht werden und welche fpür die Demo nicht nötig sind
-
-# from utils.api.wfdb_api import load_norm_and_mi_ecgs, load_patientrecords_mi_norm
 from utils.data.validation import validate_and_clean_float, validate_and_clean_char
 from utils.file.file import save_dict_as_json, save_string_to_file, load_string_from_file, load_dict_from_json, \
     pickle_data, unpickle_data, make_dirs_if_not_present
-# from utils.api.redcap_api import load_report, load_file
 from utils.misc.datastructure import perform_shape_switch
 
-
+#TODO: Candidate for deletion
 def create_snapshot_from_redcap_api(snapshot_directory='../data/kerckhoff/snapshots'):
     snapshot_id = datetime.now().strftime("%Y-%m-%d")
     snapshot_path = '{}/{}'.format(snapshot_directory, snapshot_id)
@@ -27,7 +26,9 @@ def create_snapshot_from_redcap_api(snapshot_directory='../data/kerckhoff/snapsh
     snapshot_path_ecg = '{}/{}'.format(snapshot_path, 'ecg')
 
     if path.exists(snapshot_path):
-        raise Exception('A snapshot with ID {} already exists! Please manually clean the directory if you want to renew the snapshot. Path: {}'.format(snapshot_id, snapshot_path))
+        raise Exception(
+            'A snapshot with ID {} already exists! Please manually clean the directory if you want to renew the snapshot. Path: {}'.format(
+                snapshot_id, snapshot_path))
     else:
         os.makedirs(snapshot_path)
         os.mkdir(snapshot_path_clinicalparameters)
@@ -87,7 +88,7 @@ def load_ecg_xml(path, leads_to_use=None):
 
     return leads, metadata
 
-
+#TODO: Candidate for deletion alerady a functionality in runner (no use)
 def load_ecg_csv(path, columnnames):
     ecg = pd.read_csv(path)
 
@@ -104,7 +105,7 @@ def load_ecg_csv(path, columnnames):
 
     return leads, metadata
 
-
+# TODO: candidate for deletion (already a functionality in runner)
 def save_ecg_csv(path, ecg):
     logging.debug('Saving {}'.format(path))
     leads = ecg['leads']
@@ -132,8 +133,9 @@ def load_ecgs_from_redcap_snapshot(leads_to_use, record_ids_excluded,
 
     return ecgs
 
-
-def load_ecgs_from_ptbxl(snapshot, sampling_rate=500, leads_to_use=None, snapshot_directory='../../data/ptbxl/snapshots', record_ids_excluded=None):
+#TODO: Candidate for deletion
+def load_ecgs_from_ptbxl(snapshot, sampling_rate=500, leads_to_use=None,
+                         snapshot_directory='../../data/ptbxl/snapshots', record_ids_excluded=None):
     path = snapshot_directory + '/{}/'.format(snapshot)
     ecgs = load_norm_and_mi_ecgs(path, sampling_rate, leads_to_use, record_ids_excluded)
 
@@ -163,7 +165,7 @@ def load_clinical_parameters_json(path, params_input):
 
     return inputs
 
-
+# TODO: Candidate for Deletion
 def extract_clinical_parameters_from_df(df, params_input, params_output):
     inputs = {}
     outputs = {}
@@ -195,7 +197,10 @@ def load_metadata(metadata_id, metadata_directory='./../../data/metadata/'):
         raise Exception('Metadata file at "{}" does not exist. Aborting.'.format(path))
 
     except json.decoder.JSONDecodeError as e:
-        raise Exception('Metadata file at "{}" contains errors. JSON could not be parsed. Aborting. Error message: {}'.format(path, str(e)))
+        raise Exception(
+            'Metadata file at "{}" contains errors. JSON could not be parsed. Aborting. Error message: {}'.format(path,
+                                                                                                                  str(
+                                                                                                                      e)))
 
 
 def one_hot_encode_clinical_parameters(clinical_parameters, metadata):
@@ -213,7 +218,8 @@ def one_hot_encode_clinical_parameters(clinical_parameters, metadata):
             encoded[param] = np.array(metadata[param]['values_one_hot'][value])
         except KeyError:
             raise Exception(
-                'One hot encoding failed because of missing rule for clinical parameter "{}" and value "{}". Check value or implement rule!'.format(param, value))
+                'One hot encoding failed because of missing rule for clinical parameter "{}" and value "{}". Check value or implement rule!'.format(
+                    param, value))
 
     return encoded
 
@@ -296,7 +302,7 @@ def calculate_delta_for_leads(leads):
 
     return delta_leads
 
-
+#TODO: Candidate for deletion
 def derive_ecg_from_delta_for_lead(delta_lead):
     value_list = []
     v = delta_lead[0]
@@ -309,7 +315,7 @@ def derive_ecg_from_delta_for_lead(delta_lead):
 
     return value_list
 
-
+#TODO: Candidate for deletion
 def derive_ecg_from_delta_for_leads(delta_leads):
     leads = {}
 
@@ -337,7 +343,7 @@ def derive_ecg_variants(ecg, variants):
 
     return derived_ecg
 
-
+#TODO: Candidate for deletion
 def crop_ecg(ecg, start, end):
     for lead_id in ecg['leads']:
         lead = np.array(ecg['leads'][lead_id])
@@ -350,11 +356,11 @@ def crop_ecg(ecg, start, end):
 
     return ecg
 
-
+#TODO: Candidate for deletion
 def load_crops(crop_id, crop_path='../../data/crops/'):
     return load_dict_from_json(crop_path + crop_id + '.json')
 
-
+#TODO: Candidate for deletion
 def crop_ecgs(ecgs, crop_id):
     if crop_id is not None:
         crops = load_crops(crop_id)
@@ -376,7 +382,7 @@ def crop_ecgs(ecgs, crop_id):
     else:
         return ecgs
 
-
+#TODO: Candidate for deletion
 def extract_subsample_from_leads_dict_based(leads, start, end):
     leads_subsampled = {}
 
@@ -385,7 +391,7 @@ def extract_subsample_from_leads_dict_based(leads, start, end):
 
     return leads_subsampled
 
-
+#TODO: Candidate for deletion
 def update_metadata_length(ecg, start, end):
     secs_old = ecg['metadata']['length_sec']
     timesteps_old = ecg['metadata']['length_timesteps']
@@ -407,7 +413,7 @@ def update_length_in_metadata(metadata, start, end):
     metadata['length_sec'] = secs_new
     metadata['length_timesteps'] = timesteps_new
 
-
+#TODO: Candidate for deletion
 def extract_subsample_from_ecg_dict_based(ecg, start, end):
     subsample_ecg = {}
 
@@ -430,7 +436,7 @@ def extract_subsample_from_ecg_matrix_based(ecg, start, end):
 
 
 def subsample_ecgs(ecgs, subsampling_factor, window_size, ecg_variant='ecg_raw'):
-    collected_subsamples = [] #TODO vielleicht dict für untersch. ekg varianten
+    collected_subsamples = []
     collected_clinical_parameters = []
     collected_metadata = []
     collected_record_ids = []
@@ -444,7 +450,9 @@ def subsample_ecgs(ecgs, subsampling_factor, window_size, ecg_variant='ecg_raw')
         clinical_parameters = concatenate_one_hot_encoded_parameters(record['clinical_parameters_inputs'])
 
         if not length > window_size:
-            raise Exception('Record "{}" is shorter ({}) than the configured subsampling window size of {} timesteps. Aborting.'.format(record_id, length, window_size))
+            raise Exception(
+                'Record "{}" is shorter ({}) than the configured subsampling window size of {} timesteps. Aborting.'.format(
+                    record_id, length, window_size))
 
         stride = int((length - window_size) / subsampling_factor)
 
@@ -502,6 +510,7 @@ def load_clinical_parameters_from_redcap_snapshot(clinical_parameters_inputs,
             clinicalparameters[record_id] = {'clinical_parameters_inputs': inputs}
 
     return clinicalparameters
+
 
 # TODO: No usages in project -> Delete ?
 def load_clinical_parameters_from_ptbxl_snapshot(snapshot, clinical_parameters_inputs, clinical_parameters_outputs,
@@ -645,20 +654,20 @@ def combine_ecgs_and_clinical_parameters(ecgs, clinical_parameters):
 
     return combined
 
-
+#TODO: Candidate for deletion(Training)
 def save_dataset(records, dataset_id, dataset_directory='../../data/datasets/'):
     make_dirs_if_not_present(dataset_directory)
     pickle_data(records, dataset_directory + dataset_id + '.pickled')
 
-
+#TODO: Candidate for deletion(Training)
 def load_dataset(dataset_id, dataset_directory='../../data/datasets/'):
     return unpickle_data(dataset_directory + dataset_id + '.pickled')
 
-
+#TODO: Candidate for deletion(Training)
 def load_split(split_id, split_directory='../../data/splits/'):
     return load_dict_from_json(split_directory + split_id + '.json')
 
-
+#TODO: Candidate for deletion(Training)
 def load_and_split_dataset(dataset_id, split_id, dataset_directory='../../data/datasets/',
                            split_directory='../../data/splits/'):
     records_split = {}
@@ -679,13 +688,14 @@ def load_and_split_dataset(dataset_id, split_id, dataset_directory='../../data/d
                     records_split[group][record_id] = records[record_id]
                 except KeyError:
                     raise Exception(
-                        'Record "{}" contained in split group "{}" of split "{}" not available in dataset "{}". Aborting.'.format(record_id, group, split_id, dataset_id))
+                        'Record "{}" contained in split group "{}" of split "{}" not available in dataset "{}". Aborting.'.format(
+                            record_id, group, split_id, dataset_id))
 
             record_counter[record_id] += 1
 
     return records_split, records
 
-
+#TODO: Candidate for deletion
 def extract_subdict_from_dict(dct, subdict):
     collected = []
 
@@ -703,7 +713,7 @@ def concatenate_one_hot_encoded_parameters(dct):
 
     return np.array(collected)
 
-
+#TODO: Candidate for deletion
 def concatenate_one_hot_encoded_parameters_for_records(records):
     collected = []
 
@@ -726,7 +736,7 @@ def convert_lead_dict_to_matrix(leads, shape_switch=True):
 
     return collected
 
-
+#TODO: Candidate for deletion
 def convert_lead_dict_to_matrix_for_records(records):  # TODO: Performance issues -> generate matrix before subsampling
     collected = []
     first = convert_lead_dict_to_matrix(records[0])
@@ -734,7 +744,7 @@ def convert_lead_dict_to_matrix_for_records(records):  # TODO: Performance issue
 
     i = 0
     for record in records:
-        if i%100 == 0:
+        if i % 100 == 0:
             print(i, '/', len(records))
         # collected.append(convert_lead_dict_to_matrix(record))
         test[i] = convert_lead_dict_to_matrix(record)
@@ -743,7 +753,7 @@ def convert_lead_dict_to_matrix_for_records(records):  # TODO: Performance issue
     # return collected
     return test
 
-
+#TODO: Candidate for deletion(Training)
 def derive_binary_one_hot_classes_for_list_of_labels(labels):
     collected = []
 
@@ -753,7 +763,7 @@ def derive_binary_one_hot_classes_for_list_of_labels(labels):
 
     return collected
 
-
+#TODO: Candidate for deletion
 def extract_element_from_dicts(dicts, element):
     collected = []
 
@@ -762,7 +772,7 @@ def extract_element_from_dicts(dicts, element):
 
     return collected
 
-
+#TODO: Candidate for deletion(Training)
 def save_split(split_id, records_train, records_val, split_dir='../../data/splits'):
     make_dirs_if_not_present(split_dir)
     split = {'training': records_train, 'validation': records_val}
@@ -770,14 +780,14 @@ def save_split(split_id, records_train, records_val, split_dir='../../data/split
 
     save_dict_as_json(split, path)
 
-
+#TODO: Candidate for deletion(Training)
 def shuffle_based_on_random_seed(records, random_seed):
     r_sorted = sorted(records)
     r_shuffled = shuffle(r_sorted, random_state=random_seed)
 
     return r_shuffled
 
-
+#TODO: Candidate for deletion(Training)
 def assign_stratified_records_to_k_groups(stratification_groups, k, random_seed):
     grouped_records = {i: [] for i in range(k)}
     g = 0
@@ -797,8 +807,9 @@ def assign_stratified_records_to_k_groups(stratification_groups, k, random_seed)
 
     return grouped_records
 
-
-def generate_cross_validation_splits(split_id, stratification_groups, variables, random_seed, split_dir='../../data/splits'):
+#TODO: Candidate for deletion(Training)
+def generate_cross_validation_splits(split_id, stratification_groups, variables, random_seed,
+                                     split_dir='../../data/splits'):
     k = variables['k']
 
     # Assign records to k groups, homogeneously based on stratification
@@ -820,8 +831,9 @@ def generate_cross_validation_splits(split_id, stratification_groups, variables,
         sub_split_id = '{}_k{}'.format(split_id, g)
         save_split(sub_split_id, records_train, records_validation, split_dir=split_dir)
 
-
-def generate_bootstrapping_splits(split_id, stratification_groups, variables, random_seed, split_dir='../../data/splits'):
+#TODO: Candidate for deletion(Training)
+def generate_bootstrapping_splits(split_id, stratification_groups, variables, random_seed,
+                                  split_dir='../../data/splits'):
     n = variables['n']
 
     for i in range(n):
@@ -829,7 +841,6 @@ def generate_bootstrapping_splits(split_id, stratification_groups, variables, ra
         val = []
 
         for sg in stratification_groups:
-
             # Shuffle records before assignment
             records = shuffle_based_on_random_seed(stratification_groups[sg], random_seed)
 
@@ -846,7 +857,7 @@ def generate_bootstrapping_splits(split_id, stratification_groups, variables, ra
         sub_split_id = '{}_n{}'.format(split_id, i)
         save_split(sub_split_id, train, val, split_dir=split_dir)
 
-
+#TODO: Candidate for deletion(Training)
 def generate_ratio_based_split(split_id, stratification_groups, variables, random_seed, split_dir='../../data/splits'):
     train = []
     val = []
@@ -865,8 +876,10 @@ def generate_ratio_based_split(split_id, stratification_groups, variables, rando
     # Save split
     save_split(split_id, train, val, split_dir=split_dir)
 
-
-def generate_splits_for_stratification_groups_and_validation_type(split_id, stratification_groups, validation_type, variables, random_seed, split_dir='../../data/splits'):
+#TODO: Candidate for deletion(Training)
+def generate_splits_for_stratification_groups_and_validation_type(split_id, stratification_groups, validation_type,
+                                                                  variables, random_seed,
+                                                                  split_dir='../../data/splits'):
     if validation_type == 'cross_validation':
         generate_cross_validation_splits(split_id, stratification_groups, variables, random_seed, split_dir=split_dir)
     elif validation_type == 'bootstrapping':
@@ -874,8 +887,10 @@ def generate_splits_for_stratification_groups_and_validation_type(split_id, stra
     elif validation_type == 'single' or validation_type is None:
         generate_ratio_based_split(split_id, stratification_groups, variables, random_seed, split_dir=split_dir)
 
-
-def generate_splits_for_dataset_and_validation_type(split_id, dataset_id, validation_type, stratification_variable, random_seed, variables, dataset_directory='../../data/datasets/', split_directory='../../data/splits'):
+#TODO: Candidate for deletion(Training)
+def generate_splits_for_dataset_and_validation_type(split_id, dataset_id, validation_type, stratification_variable,
+                                                    random_seed, variables, dataset_directory='../../data/datasets/',
+                                                    split_directory='../../data/splits'):
     # Load records from dataset
     records = load_dataset(dataset_id, dataset_directory)
     record_ids = [r for r in records]
@@ -891,5 +906,5 @@ def generate_splits_for_dataset_and_validation_type(split_id, dataset_id, valida
         stratification_groups[v].append(r)
 
     # Generate splits based on stratification groups and validation type
-    generate_splits_for_stratification_groups_and_validation_type(split_id, stratification_groups, validation_type, variables, random_seed, split_dir=split_directory)
-
+    generate_splits_for_stratification_groups_and_validation_type(split_id, stratification_groups, validation_type,
+                                                                  variables, random_seed, split_dir=split_directory)

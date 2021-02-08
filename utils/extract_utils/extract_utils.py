@@ -98,6 +98,7 @@ def scale_values_based_on_eich_peak(lead_list, gamma=0.5):
     return new_lead_list
 
 
+# TODO: Old visualisation, Untested if visualisation works outside of an IDE
 def plot_leads(lead, plot_path=None, plot_name='plot'):
     """
         visualizes the lead in a plot

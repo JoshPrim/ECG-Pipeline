@@ -1,10 +1,6 @@
 from PIL import Image, ImageDraw
 
 
-# TODO: Add PIL to requirements.txt
-# TODO: Check Data frame accessing is done correctly
-
-
 def visualiseMulti(ecgs, scaling=1):
     """
             Visualises the extracted ECGs in one image per ECG

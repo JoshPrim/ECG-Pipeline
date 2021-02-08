@@ -8,6 +8,8 @@ import shutil
 import pandas as pd
 from PyPDF2 import PdfFileWriter, PdfFileReader
 
+#TODO: Consider deletion of methods here after deleting data util methods
+
 def save_dict_as_json(dct, path):
     with open(path, 'w') as fp:
         json.dump(dct, fp)

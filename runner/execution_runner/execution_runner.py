@@ -6,7 +6,7 @@ import time
 import pandas as pd
 import configparser
 from tensorflow.keras.models import model_from_json
-from utils.data.data import load_ecgs_from_redcap_snapshot, scale_ecgs, derive_ecg_variants_multi, crop_ecgs, \
+from utils.data.data import load_ecgs_from_redcap_snapshot, scale_ecgs, derive_ecg_variants_multi, \
     load_clinical_parameters_from_redcap_snapshot, validate_and_clean_clinical_parameters_for_records, \
     categorize_clinical_parameters_for_records, \
     one_hot_encode_clinical_parameters_for_records, \

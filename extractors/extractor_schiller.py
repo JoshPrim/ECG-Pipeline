@@ -82,10 +82,6 @@ class SchillerExtractor(AbstractExractor):
                         # Scale values based on eich peak
                         new_lead = scale_values_based_on_eich_peak(new_lead, self.gamma)
 
-                        # Plot
-                        if self.show_visualisation:
-                            plot_leads(new_lead)
-
                         # Create (e.g. 5000) measurement points based on the unevenly distributed points
                         measurement_points = create_measurement_points(new_lead, self.number_of_points)
 
