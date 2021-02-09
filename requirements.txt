@@ -1,14 +1,8 @@
 tensorflow==2.2.0
-pycurl==7.43.0.5
-requests==2.24.0
 matplotlib==3.3.0
 numpy==1.18.0
-hickle==3.4.6
 PyPDF2==1.26.0
-scikit-learn==0.23.1
 pandas==1.0.5
-wfdb==3.0.1
 tqdm==4.48.2
-sklearn~=0.0
 pillow~=8.1.0
 scipy~=1.4.1

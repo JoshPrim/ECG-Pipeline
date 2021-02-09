@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
+import matplotlib as plt
 
 
 def visualiseMulti(ecgs, scaling=1):
@@ -48,3 +49,10 @@ def visualiseIndividualfromDF(ecg, scaling=1):
             draw.line((i*scaling, (-singlelead[i] + 1250)*scaling, (i + 1)*scaling, (-singlelead[i + 1] + 1250)*scaling)
                       , fill=0, width=2)
         ims.show()
+
+def visualiseIndividualinMPL(ecg):
+    for leadname in ecg.columns:
+        # iterating through all leads to generate a single image per ECG
+        # Generating an image for every lead
+        ecg.plot(kind='line', x=ecg.index, y=ecg[leadname])
+        plt.show()

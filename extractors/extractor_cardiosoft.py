@@ -17,7 +17,7 @@ from extractors.abstract_extractor import AbstractExractor
 from utils.extract_utils.extract_utils import rotate_origin_only, move_along_the_axis, scale_values_based_on_eich_peak, \
     create_measurement_points, adjust_leads_baseline, plot_leads, preprocess_page_content, extract_graphics_string
 from utils.misc.datastructure import perform_shape_switch
-from utils.data.visualisation import visualiseIndividualfromDF
+from utils.data.visualisation import visualiseIndividualfromDF, visualiseIndividualinMPL
 from tqdm import tqdm
 import logging
 
@@ -102,6 +102,7 @@ class CardiosoftExtractor(AbstractExractor):
                     # Plot leads of ECG if config is set to do so
                     if self.show_visualisation:
                         visualiseIndividualfromDF(df_leads,self.vis_scale)
+                        # visualiseIndividualinMPL(df_leads)
 
                     df_leads.to_csv(('{}{}.csv'.format(self.path_sink, file_name.replace(".pdf", ""))),
                                     index=False)
