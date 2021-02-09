@@ -40,7 +40,6 @@ def visualiseIndividualfromDF(ecg):
         ims = Image.new('L', (5000, 2500), 255)
         draw = ImageDraw.Draw(ims)
         singlelead = ecg[leadname].tolist()
-        # TODO: Enlarge Font ( Requires adding a .ttf font to project directory)
         draw.text((10, 2300), leadname, font=ImageFont.load_default())
         for i in range(len(singlelead) - 1):
             # Drawing lines between every measuring point

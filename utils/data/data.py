@@ -3,8 +3,6 @@ import logging
 import os
 
 import numpy as np
-# Known Bug in PyCharm -> Minidom will not import correctly
-# Pipeline should work as this is only part of the XML extraction
 # noinspection PyUnresolvedReferences
 from xml.dom import minidom
 

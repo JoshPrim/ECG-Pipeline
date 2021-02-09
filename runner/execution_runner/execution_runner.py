@@ -51,6 +51,7 @@ class ExecutionRunner:
 
         self.subsampling_factor = config['general'].getint('subsampling_factor')
         self.subsampling_window_size = config['general'].getint('subsampling_window_size')
+        self.model_supplied = config['general'].getboolean('model_supplied')
 
     def initialize_logger(self, loglevel='INFO'):
 
@@ -71,44 +72,46 @@ class ExecutionRunner:
         # Preprocessing
         records, index_of_positiv = self.pre_processing()
 
-        # Loading models
-        model_list = self.load_models()
+        # If the user suppies their own model, a prediction of the extracted ecgs can be made
+        if self.model_supplied:
+            # Loading models
+            model_list = self.load_models()
 
-        # init result df
-        result_df = pd.DataFrame(columns=['record_id', 'positive_value'])
+            # init result df
+            result_df = pd.DataFrame(columns=['record_id', 'positive_value'])
 
-        for record in records:
-            tmp_record = {record: records[record]}
+            for record in records:
+                tmp_record = {record: records[record]}
 
-            # Subsampling
-            _, _, clinical_parameters, ecg_raw = subsample_ecgs(tmp_record, self.subsampling_factor,
-                                                                self.subsampling_window_size)
+                # Subsampling
+                _, _, clinical_parameters, ecg_raw = subsample_ecgs(tmp_record, self.subsampling_factor,
+                                                                    self.subsampling_window_size)
 
-            # Create ensemble and predict
-            if self.combined_model:
-                net_input = [np.asarray(ecg_raw), np.asarray(clinical_parameters)]
+                # Create ensemble and predict
+                if self.combined_model:
+                    net_input = [np.asarray(ecg_raw), np.asarray(clinical_parameters)]
 
-            else:
-                net_input = [np.asarray(ecg_raw)]
+                else:
+                    net_input = [np.asarray(ecg_raw)]
 
-            predictions_dict = self.predict(model_list, net_input)
+                predictions_dict = self.predict(model_list, net_input)
 
-            # Averaging the result --> for 100*6
-            predictions_avg_list = []
+                # Averaging the result --> for 100*6
+                predictions_avg_list = []
 
-            for i in predictions_dict:
-                tmp = predictions_dict[i].mean(axis=0)
-                predictions_avg_list.append([tmp[0], tmp[1]])
+                for i in predictions_dict:
+                    tmp = predictions_dict[i].mean(axis=0)
+                    predictions_avg_list.append([tmp[0], tmp[1]])
 
-            predictions_avg = np.array(predictions_avg_list).mean(axis=0)
+                predictions_avg = np.array(predictions_avg_list).mean(axis=0)
 
-            positive = ("%.5f" % round((predictions_avg[index_of_positiv] * 100), 5))
+                positive = ("%.5f" % round((predictions_avg[index_of_positiv] * 100), 5))
 
-            print('The positive-Value for ', record, ' is:  ', positive, '%')
-            result_df = result_df.append({'record_id': record, 'positive_value': positive}, ignore_index=True)
+                print('The positive-Value for ', record, ' is:  ', positive, '%')
+                result_df = result_df.append({'record_id': record, 'positive_value': positive}, ignore_index=True)
 
-        date_n_time = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H-%M-%S')
-        result_df.to_csv((date_n_time + '_result.csv'), index=False)
+            date_n_time = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H-%M-%S')
+            result_df.to_csv((date_n_time + '_result.csv'), index=False)
 
     def predict(self, model_list, subsample_list):
         results = {}
