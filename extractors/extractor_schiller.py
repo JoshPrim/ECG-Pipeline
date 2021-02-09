@@ -8,14 +8,12 @@
 """
 import pandas as pd
 import PyPDF2
-from PyPDF2 import filters
 import numpy as np
 import math
-from os import walk
 from extractors.abstract_extractor import AbstractExractor
 from utils.data.visualisation import visualiseIndividualfromDF
 from utils.extract_utils.extract_utils import rotate_origin_only, move_along_the_axis, scale_values_based_on_eich_peak, \
-    create_measurement_points, adjust_leads_baseline, plot_leads, preprocess_page_content, extract_graphics_string
+    create_measurement_points, adjust_leads_baseline, preprocess_page_content, extract_graphics_string
 from utils.misc.datastructure import perform_shape_switch
 import logging
 from tqdm import tqdm

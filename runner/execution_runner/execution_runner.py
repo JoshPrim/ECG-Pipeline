@@ -48,10 +48,7 @@ class ExecutionRunner:
         self.leads_to_use = config['pdf'].get('leads_to_use')
         self.record_ids_excluded = ''
 
-        self.clinical_parameters_inputs = ['varid_549', 'varid_1891', 'varid_2265',
-                                           'varid_2414', 'varid_2359', 'varid_558',
-                                           'varid_559', 'varid_560', 'varid_557',
-                                           'varid_561']
+        self.clinical_parameters_inputs = ['varid_sex', 'varid_age', 'varid_bmi']
         self.metadata_id = config['general'].get('metadata_id')
 
         self.seconds = int(config['pdf'].get('seconds'))
