@@ -15,6 +15,7 @@ import numpy as np
 from extractors.extractor_schiller import SchillerExtractor
 from extractors.extractor_cardiosoft import CardiosoftExtractor
 from utils.data.visualisation import visualiseMulti
+from utils.file.file import checkpathsandmake
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -49,15 +50,12 @@ class ExecutionRunner:
                                            'varid_561']
         self.metadata_id = config['general'].get('metadata_id')
 
-        self.seconds = config['pdf'].get('seconds')
+        self.seconds = int(config['pdf'].get('seconds'))
         self.hz = 500
 
         self.subsampling_factor = config['general'].getint('subsampling_factor')
         self.subsampling_window_size = config['general'].getint('subsampling_window_size')
         self.model_supplied = config['general'].getboolean('model_supplied')
-
-
-
 
     def initialize_logger(self, loglevel='INFO'):
 
@@ -168,11 +166,17 @@ class ExecutionRunner:
                 path_sink = '../../data/pdf_data/pdf_schiller/extracted_ecgs/'
                 clinical_parameters_directory = '../../data/pdf_data/pdf_schiller/clinicalparameters/'
 
+                checkpathsandmake(path_sink)
+                checkpathsandmake(path_source)
+                checkpathsandmake(clinical_parameters_directory)
+
+
                 params = {
                     'ecg_path_sink': path_sink,
                     'ecg_path_source': path_source,
-                    'number_of_points': self.seconds*self.hz,
+                    'number_of_points': self.seconds * self.hz,
                     'show_visualisation': self.vis_while_extraction,
+                    'vis_scale': self.vis_scale,
                 }
 
                 # New extraction
@@ -190,11 +194,16 @@ class ExecutionRunner:
                 path_sink = './../../data/pdf_data/pdf_cardiosoft/extracted_ecgs/'
                 clinical_parameters_directory = '../../data/pdf_data/pdf_cardiosoft/clinicalparameters/'
 
+                checkpathsandmake(path_sink)
+                checkpathsandmake(path_source)
+                checkpathsandmake(clinical_parameters_directory)
+
                 params = {
                     'ecg_path_source': path_source,
                     'ecg_path_sink': path_sink,
                     'number_of_points': 5000,
                     'show_visualisation': self.vis_while_extraction,
+                    'vis_scale': self.vis_scale,
                 }
 
                 # New extraction
@@ -209,6 +218,7 @@ class ExecutionRunner:
         else:
             original_ecgs = load_ecgs_from_redcap_snapshot(self.leads_to_use, self.record_ids_excluded)
             clinical_parameters_directory = '../../data/xml_data/clinicalparameters/'
+            checkpathsandmake(clinical_parameters_directory)
         # Visualise Extracted ECGs
         if self.vis_after_extraction:
             visualiseMulti(original_ecgs, self.vis_scale)

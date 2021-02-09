@@ -52,6 +52,11 @@ class CardiosoftExtractor(AbstractExractor):
         else:
             self.show_visualisation = False
 
+        if 'vis_scale' in params:
+            self.vis_scale = params['vis_scale']
+        else:
+            self.vis_scale = 1
+
         self.gamma = self.eich_ref / self.eichzacke
 
         if 'version' not in params:
@@ -96,7 +101,7 @@ class CardiosoftExtractor(AbstractExractor):
 
                     # Plot leads of ECG if config is set to do so
                     if self.show_visualisation:
-                        visualiseIndividualfromDF(df_leads)
+                        visualiseIndividualfromDF(df_leads,self.vis_scale)
 
                     df_leads.to_csv(('{}{}.csv'.format(self.path_sink, file_name.replace(".pdf", ""))),
                                     index=False)

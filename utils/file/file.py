@@ -17,6 +17,11 @@ def load_dict_from_json(path):
     return dct
 
 
+def checkpathsandmake(path):
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+
 def save_string_to_file(string, path):
     with open(path, 'w') as fp:
         fp.write(string)
