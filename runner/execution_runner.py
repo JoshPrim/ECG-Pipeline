@@ -24,7 +24,7 @@ class ExecutionRunner:
     def __init__(self):
 
         config = configparser.ConfigParser()
-        read_ok = config.read('../../config.ini')
+        read_ok = config.read('../config.ini')
 
         if len(read_ok) == 0:
             raise Exception('Could not read config file.')
@@ -163,9 +163,9 @@ class ExecutionRunner:
         if self.IS_PDf:
 
             if self.manufacturer == 'Schiller':
-                path_source = '../../data/pdf_data/pdf_schiller/original_ecgs/'
-                path_sink = '../../data/pdf_data/pdf_schiller/extracted_ecgs/'
-                clinical_parameters_directory = '../../data/pdf_data/pdf_schiller/clinicalparameters/'
+                path_source = '../data/pdf_data/pdf_schiller/original_ecgs/'
+                path_sink = '../data/pdf_data/pdf_schiller/extracted_ecgs/'
+                clinical_parameters_directory = '../data/pdf_data/pdf_schiller/clinicalparameters/'
 
                 checkpathsandmake(path_sink)
                 checkpathsandmake(path_source)
@@ -191,9 +191,9 @@ class ExecutionRunner:
                 original_ecgs = self.load_csv(path_csv=path_sink)
 
             if self.manufacturer == 'Cardiosoft':
-                path_source = './../../data/pdf_data/pdf_cardiosoft/original_ecgs/'
-                path_sink = './../../data/pdf_data/pdf_cardiosoft/extracted_ecgs/'
-                clinical_parameters_directory = '../../data/pdf_data/pdf_cardiosoft/clinicalparameters/'
+                path_source = './../data/pdf_data/pdf_cardiosoft/original_ecgs/'
+                path_sink = './../data/pdf_data/pdf_cardiosoft/extracted_ecgs/'
+                clinical_parameters_directory = '../data/pdf_data/pdf_cardiosoft/clinicalparameters/'
 
                 checkpathsandmake(path_sink)
                 checkpathsandmake(path_source)
@@ -218,7 +218,7 @@ class ExecutionRunner:
                 original_ecgs = self.load_csv(path_csv=path_sink)
         else:
             original_ecgs = load_ecgs_from_redcap_snapshot(self.leads_to_use, self.record_ids_excluded)
-            clinical_parameters_directory = '../../data/xml_data/clinicalparameters/'
+            clinical_parameters_directory = '../data/xml_data/clinicalparameters/'
             checkpathsandmake(clinical_parameters_directory)
         # Visualise Extracted ECGs
         if self.vis_after_extraction:
@@ -268,9 +268,9 @@ class ExecutionRunner:
     def load_models(self):
 
         if self.combined_model:
-            path = './../../models/combined_model/'
+            path = './../models/combined_model/'
         else:
-            path = './../../models/ecgmodel/'
+            path = './../models/ecgmodel/'
 
         f = []
         for (dirpath, dirnames, filenames) in os.walk(path):

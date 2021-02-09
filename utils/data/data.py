@@ -95,7 +95,7 @@ def load_clinical_parameters_json(path, params_input):
     return inputs
 
 
-def load_metadata(metadata_id, metadata_directory='./../../data/metadata/'):
+def load_metadata(metadata_id, metadata_directory='./../data/metadata/'):
     """
         Loads a metadata file
     :param metadata_id: ID of the metadata file(stored in config)
