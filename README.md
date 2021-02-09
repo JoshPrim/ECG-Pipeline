@@ -101,6 +101,7 @@ Settings:
 * vis_after_extraction = Switch on(True)/off(False) visualisation of all ECG leads after the instruction
 * vis_scale = Set the scale of the after-extraction Visualisation. (Accepted Values: 0 < Value < 1)
 * manufacturer = Manufacturer (Possible values: 'Cardiosoft', 'Schiller')
+* model_supplied = If the user wishes to supply their own model for classification this can be set to true (Default = False)
 
 
 
