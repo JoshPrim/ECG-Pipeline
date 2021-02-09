@@ -201,7 +201,7 @@ class ExecutionRunner:
                 params = {
                     'ecg_path_source': path_source,
                     'ecg_path_sink': path_sink,
-                    'number_of_points': 5000,
+                    'number_of_points': self.seconds * self.hz,
                     'show_visualisation': self.vis_while_extraction,
                     'vis_scale': self.vis_scale,
                 }
