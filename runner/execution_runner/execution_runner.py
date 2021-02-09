@@ -40,6 +40,10 @@ class ExecutionRunner:
         self.combined_model = config['pdf'].getboolean('combined_model')
 
         self.manufacturer = config['pdf'].get('manufacturer')
+        if self.manufacturer == "schiller":
+            self.manufacturer = "Schiller"
+        if self.manufacturer == "cardiosoft":
+            self.manufacturer = "Cardiosoft"
 
         self.leads_to_use = config['pdf'].get('leads_to_use')
         self.record_ids_excluded = ''
