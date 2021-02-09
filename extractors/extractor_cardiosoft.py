@@ -219,8 +219,8 @@ class CardiosoftExtractor(AbstractExractor):
 
 
 if __name__ == '__main__':
-    path_source = '../data/kerckhoff/pdf_data/pdf_cardiosoft/original_ecgs/'
-    path_sink = '../data/kerckhoff/pdf_data/pdf_cardiosoft//extracted_ecgs/'
+    path_source = '../data/pdf_data/pdf_cardiosoft/original_ecgs/'
+    path_sink = '../data/pdf_data/pdf_cardiosoft//extracted_ecgs/'
 
     params = {
         'ecg_path_source': path_source,

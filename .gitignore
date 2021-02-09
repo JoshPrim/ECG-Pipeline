@@ -129,14 +129,10 @@ dmypy.json
 *.pickled
 *.xyz
 *.hea
-*.dat
 *.qrs
 *.png
-*.pdf
+#*.pdf
 *.tar
 *.bz2
-/data/datasets/
-/tensorboard/
-/logs/
-/data/shareedb/
-/data/ptbxl/
+
+

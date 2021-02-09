@@ -65,21 +65,20 @@ A short explanation of the structure of the project follows.
 
 ```
 ECG-Pipeline
-└── data
-    ├── kerckhoff
-    │   ├── pdf_data
-    │   │   ├── pdf_cardiosoft
-    │   │   │   ├── clinicalparameters
-    │   │   │   ├── extracted_ecgs
-    │   │   │   └── original_ecgs
-    │   │   └── pdf_schiller
-    │   │       ├── clinicalparameters
-    │   │       ├── extracted_ecgs
-    │   │       └── original_ecgs
-    │   └── xml_data
-    │       ├── clinicalparameters
-    │       └── ecg
-    └── metadata
+├── data
+│   ├── pdf_data
+│   │   ├── pdf_cardiosoft
+│   │   │   ├── clinicalparameters
+│   │   │   ├── extracted_ecgs
+│   │   │   └── original_ecgs
+│   │   └── pdf_schiller
+│   │       ├── clinicalparameters
+│   │       ├── extracted_ecgs
+│   │       └── original_ecgs
+│   └── xml_data
+│       ├── clinicalparameters
+│       └── ecg
+└── metadata
 
 ```
 If ECG data in XML format are to be used, they must be stored in the 'xml_data' folder. Here the XML files must be placed in the 'ecg' folder and the corresponding clinical parameters in the 'clinicalparameters' folder.

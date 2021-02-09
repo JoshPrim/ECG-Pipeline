@@ -1,0 +1,133 @@
+{
+"varid_sex": {
+	"description": "Sex",
+	"type": "char",
+	"values_one_hot":
+		{
+		"m": [1, 0], 	
+		"f": [0, 1]
+		},
+	"values_allowed":
+		["2", "3", "88", "99"],
+	"values_replace":
+		{	
+		"2": "m", 
+		"3": "f",
+		"88": "m",
+		"99": "m"
+		}
+},
+"varid_age": {
+	"description": "Age",
+	"type": "float",
+	"values_one_hot":
+		{
+		"age-1": [1, 0, 0, 0, 0, 0], 
+		"age-2": [0, 1, 0, 0, 0, 0], 
+		"age-3": [0, 0, 1, 0, 0, 0],
+		"age-4": [0, 0, 0, 1, 0, 0], 
+		"age-5": [0, 0, 0, 0, 1, 0], 
+		"age-6": [0, 0, 0, 0, 0, 1]
+		},
+	"valmin": 18, 
+	"valmax": 120,	
+	"categorization_rules": [
+		{
+		"start": 0,
+		"end": 40,
+		"name": "age-1"
+		},
+		{
+		"start": 40,
+		"end": 50,
+		"name": "age-2"
+		},
+		{
+		"start": 50,
+		"end": 55,
+		"name": "age-3"
+		},
+		{
+		"start": 55,
+		"end": 60,
+		"name": "age-4"
+		},
+		{
+		"start": 60,
+		"end": 65,
+		"name": "age-5"
+		},
+		{
+		"start": 65,
+		"end": "Infinity",
+		"name": "age-6"
+		}
+	]
+},
+"varid_bmi": {
+	"description": "Body-mass-index",
+	"type": "float",
+	"values_one_hot":
+		{
+		"underweight": [1, 0, 0, 0, 0, 0], 
+		"normalweight": [0, 1, 0, 0, 0, 0],
+		"pre-obese": [0, 0, 1, 0, 0, 0], 
+		"obesity-I": [0, 0, 0, 1, 0, 0],
+		"obesity-II": [0, 0, 0, 0, 1, 0], 
+		"obesity-III": [0, 0, 0, 0, 0, 1]
+		},
+	"valmin": 10, 
+	"valmax": 60,	
+	"categorization_rules": [
+		{
+		"start": 0,
+		"end": 18.5,
+		"name": "underweight"
+		},
+		{
+		"start": 18.5,
+		"end": 25,
+		"name": "normalweight"
+		},
+		{
+		"start": 25,
+		"end": 30,
+		"name": "pre-obese"
+		},
+		{
+		"start": 30,
+		"end": 35,
+		"name": "obesity-I"
+		},
+		{
+		"start": 35,
+		"end": 40,
+		"name": "obesity-II"
+		},
+		{
+		"start": 40,
+		"end": "Infinity",
+		"name": "obesity-III"
+		}
+	]
+},
+"varid_1657": {
+	"description": "LE myocardium",
+	"type": "char",
+	"values_one_hot":
+		{
+		"True": [1, 0], 
+		"False": [0, 1]
+		},
+	"values_allowed":
+		["", "0", "1", "88", "99"],
+	"values_replace":
+		{	
+		"": "False",
+		"0": "False", 
+		"1": "True",
+		"88": "False",
+		"99": "False"
+		}
+}
+}
