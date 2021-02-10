@@ -35,6 +35,7 @@ class ExecutionRunner:
         self.new_extraction = config['pdf'].getboolean('override')
 
         self.vis_while_extraction = config['pdf'].getboolean('vis_while_extraction')
+        self.vis_with_MPL = config['pdf'].getboolean('vis_with_MatplotLib')
         self.vis_after_extraction = config['pdf'].getboolean('vis_after_extraction')
         self.vis_scale = config['pdf'].getfloat('vis_scale')
         self.combined_model = config['pdf'].getboolean('combined_model')
@@ -178,6 +179,7 @@ class ExecutionRunner:
                     'number_of_points': self.seconds * self.hz,
                     'show_visualisation': self.vis_while_extraction,
                     'vis_scale': self.vis_scale,
+                    'vis_MPL': self.vis_with_MPL,
                 }
 
                 # New extraction
@@ -205,6 +207,7 @@ class ExecutionRunner:
                     'number_of_points': self.seconds * self.hz,
                     'show_visualisation': self.vis_while_extraction,
                     'vis_scale': self.vis_scale,
+                    'vis_MPL': self.vis_with_MPL,
                 }
 
                 # New extraction

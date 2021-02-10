@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 
 def visualiseMulti(ecgs, scaling=1):
@@ -43,16 +43,22 @@ def visualiseIndividualfromDF(ecg, scaling=1):
         ims = Image.new('L', (int(5000 * scaling), int(2500 * scaling)), 255)
         draw = ImageDraw.Draw(ims)
         singlelead = ecg[leadname].tolist()
-        draw.text((10, (2300*scaling)), leadname, font=ImageFont.load_default())
+        draw.text((10, (2300 * scaling)), leadname, font=ImageFont.load_default())
         for i in range(len(singlelead) - 1):
             # Drawing lines between every measuring point
-            draw.line((i*scaling, (-singlelead[i] + 1250)*scaling, (i + 1)*scaling, (-singlelead[i + 1] + 1250)*scaling)
+            draw.line((i * scaling, (-singlelead[i] + 1250) * scaling, (i + 1) * scaling,
+                       (-singlelead[i + 1] + 1250) * scaling)
                       , fill=0, width=2)
         ims.show()
 
+
 def visualiseIndividualinMPL(ecg):
+    """
+        Visualises the extracted ECG in one Plot per ECG-lead. This Method uses Matplotlib.
+    :param ecg: ECG in the Format of a pandas Dataframe
+    """
     for leadname in ecg.columns:
         # iterating through all leads to generate a single image per ECG
         # Generating an image for every lead
-        ecg.plot(kind='line', x=ecg.index, y=ecg[leadname])
+        ecg.plot(kind='line', y=[leadname])
         plt.show()

@@ -11,7 +11,7 @@ import PyPDF2
 import numpy as np
 import math
 from extractors.abstract_extractor import AbstractExractor
-from utils.data.visualisation import visualiseIndividualfromDF
+from utils.data.visualisation import visualiseIndividualfromDF, visualiseIndividualinMPL
 from utils.extract_utils.extract_utils import rotate_origin_only, move_along_the_axis, scale_values_based_on_eich_peak, \
     create_measurement_points, adjust_leads_baseline, preprocess_page_content, extract_graphics_string
 from utils.misc.datastructure import perform_shape_switch
@@ -57,6 +57,11 @@ class SchillerExtractor(AbstractExractor):
         else:
             self.vis_scale = 1
 
+        if 'vis_MPL' in params:
+            self.vis_MPL = params['vis_MPL']
+        else:
+            self.vis_MPL = False
+
         # factor for scaling
         self.gamma = self.eich_ref / self.eichzacke
 
@@ -99,8 +104,10 @@ class SchillerExtractor(AbstractExractor):
 
                     # Plot leads of ECG if config is set to do so
                     if self.show_visualisation:
-                        visualiseIndividualfromDF(df_leads,self.vis_scale)
-
+                        if not self.vis_MPL:
+                            visualiseIndividualfromDF(df_leads, self.vis_scale)
+                        else:
+                            visualiseIndividualinMPL(df_leads)
                     df_leads.to_csv(('{}{}.csv'.format(self.path_sink, file_name.replace(".pdf", ""))),
                                     index=False)
                 else:
